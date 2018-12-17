@@ -35,6 +35,6 @@ However, if you have questions about running similar analyses or better understa
 
 ### Who wrote the code
 
-Most of the code in this repository was written by Håkon Grydeland but it built on work generously shared by Aaron Alexander-Bloch, Rafael Romero-Garcia, František Váša, Petra Vértes, Kirstie Whitaker.
+Most of the code in this repository was written by Håkon Grydeland but it built on work generously shared by Aaron Alexander-Bloch, Ameera Patel, Rafael Romero-Garcia, František Váša, Petra Vértes, Kirstie Whitaker.
 
 Thank you!
