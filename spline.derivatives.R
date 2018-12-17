@@ -12,24 +12,24 @@ library(rcompanion) ; library(corrplot) ; library(RColorBrewer) ; library(Rmisc)
 library(Rarity) ;library(mixtools) ; library(mclust) ; library(extRemes) ; library(diptest) ; library(fpc) ; library(vioplot) ; library(gmodels)
 library(lm.beta)
 
-source("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/splineclusteringRcamcode/plotscatter.R")
-source("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/splineclusteringRcamcode/plotscatterspearman.R")
-source("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/splineclusteringRcamcode/plotsplitvioplot.R")
-source("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/splineclusteringRcamcode/plotvioregression.R")
-source("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/splineclusteringRcamcode/pyramid.R")
-source("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/splineclusteringRcamcode/pyramid.pub.R")
-source("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/splineclusteringRcamcode/plotmixemcustom.R")
+source("plotscatter.R")
+source("plotscatterspearman.R")
+source("plotsplitvioplot.R")
+source("plotvioregression.R")
+source("pyramid.R")
+source("pyramid.pub.R")
+source("plotmixemcustom.R")
 
 #set/create input file and output directory
-basedir="/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/"
-subdatadir="results/validt1wt2w_204_256_dimregressed/"
+basedir="projects/lifespant1wt2w/"
+subdatadir="results/"
 measname=c("myelin_fraction70")
 moi="T1w/T2w (a.u.)"
 print(measname)
 measdir=paste(basedir,subdatadir,measname,'/',sep='')
 ifile = paste(measdir,measname,".mat",sep='') #generated in matlab, using myelinmapping.m
 
-outputdir=paste(measdir,"splineclusteringR_m5_50percent_Kx/",sep='')
+outputdir=paste(measdir,"spline.derivatives/",sep='')
 outputdirsummeas=paste(outputdir,"summarymeasures/",sep='')
 outputdirfigs=paste(outputdir,"figures/",sep='')
 #create outputdir
@@ -152,7 +152,7 @@ print(paste(round((length(intersect(x,y))/length(x))*100,0),"% overlap btw dti t
 
 #load thickness as well
 measnameCT="corrthickness"
-measdirCT=paste("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/",subdatadir,measnameCT,'/',sep='')
+measdirCT=paste("projects/lifespant1wt2w/",subdatadir,measnameCT,'/',sep='')
 ifileCT = paste(measdirCT,measnameCT,".mat",sep='') #generated in matlab
 mriCT = readMat(paste(ifileCT,sep=''));  #attach(mri)
 CT = mriCT$parcmeas # dimension participants * n.regions
@@ -387,23 +387,19 @@ if (mplotp1x == 1) {
   # add tick mark and text
   axis(side = 1, at = gageatmaxderiv,labels = "",col=pointcol1)
   if (mplotp1y == 1) {
-    #text(x=gageatmaxderiv, y = tmpsty, pos=1, labels = "M2", col = pointcol1) # does not currently work in the saved version
     text(x=gageatmaxderiv, y = tmpypos, pos=1, labels = "M2", col = pointcol1)
   } else {
     text(x=gageatmaxderiv, y = tmpypos, pos=1, labels = "M1", col = pointcol1)
   }
-  #axis(side = 1, at = gageatmaxderiv,labels = "M2",line=0-5,col=pointcol1) #set the label outside, but not in "correct" color
 }
 if (mplotp1y == 1) {
   # add line across to y axis
   tmpstx=mean(c(axislims[1],min(gdX)))
-  #tmpseqx=seq(axislims[1],gageatmaxderiv,0.1)
   tmpseqx=seq(tmpstx-0.5,gageatmaxderiv,0.1)
   tmpseqy=rep(gmaxderiv,1,length(tmpseqx))
   lines(tmpseqx,tmpseqy, type = 'l', lty = 3, lwd = poinlinelw, col = pointlinecol)
   # add tick mark and text
   axis(side = 2, at = gmaxderiv,labels = "",col=pointcol1)
-  #text(x=tmpstx-1, y = gmaxderiv, pos=1, labels = "M1", col = pointcol1,offset=-0.15)
   text(x=min(gdX), y = gmaxderiv, pos=1, labels = "M1", col = pointcol1,offset=-0.15)
 }
 # add first point
@@ -432,7 +428,6 @@ if (mplotp2 == 1) {
   # add tick mark and text
   axis(side = 1, at = gageatfirstzerocrossing,labels = "",col=pointcol2)
   if (mplotp1y == 1) {
-    #text(x=gageatmaxderiv, y = tmpsty, pos=1, labels = "M2", col = pointcol1) # does not currently work in the saved version
     text(x=gageatfirstzerocrossing, y = tmpsty/2, pos=1, labels = "M3", col = pointcol2)
   } else {
     text(x=gageatfirstzerocrossing, y = tmpsty/2, pos=1, labels = "M2", col = pointcol2)
@@ -468,7 +463,6 @@ if (mplotp3 == 1) {
   # add tick mark and text
   axis(side = 1, at = gageatsecondzerocrossing,labels = "",col=pointcol2)
   if (mplotp1y == 1) {
-    #text(x=gageatmaxderiv, y = tmpsty, pos=1, labels = "M2", col = pointcol1) # does not currently work in the saved version
     text(x=gageatsecondzerocrossing, y = tmpsty/2, pos=1, labels = "M4", col = pointcol3)
   } else {
     text(x=gageatsecondzerocrossing, y = tmpsty/2, pos=1, labels = "M3", col = pointcol3)
@@ -550,7 +544,6 @@ if (mplotp1y == 1) {
   lines(tmpseqx,tmpseqy, type = 'l', lty = 3, lwd = poinlinelw, col = pointlinecol)
   # add tick mark and text
   axis(side = 2, at = gmaxderiv,labels = "",col=pointcol1)
-  #text(x=tmpstx-1, y = gmaxderiv, pos=1, labels = "M1", col = pointcol1,offset=-0.15)
   text(x=min(gdX), y = gmaxderiv, pos=1, labels = "M1", col = pointcol1,offset=-0.15)
 }
 # add first point
@@ -579,7 +572,6 @@ if (mplotp2 == 1) {
   # add tick mark and text
   axis(side = 1, at = gageatfirstzerocrossing,labels = "",col=pointcol2)
   if (mplotp1y == 1) {
-    #text(x=gageatmaxderiv, y = tmpsty, pos=1, labels = "M2", col = pointcol1) # does not currently work in the saved version
     text(x=gageatfirstzerocrossing, y = tmpsty/2, pos=1, labels = "", col = pointcol2)
   } else {
     text(x=gageatfirstzerocrossing, y = tmpsty/2, pos=1, labels = "", col = pointcol2)
@@ -598,7 +590,6 @@ if (mplotp3 == 1) {
   }
   # add line down to x axis
   tmpsty=mean(c(axislims[3],min(glwr)))
-  #tmpseqy=seq(axislims[3],gderivvalatageatsecondzerocrossing[1],0.001)
   tmpypos=tmpsty/2 #hight of text 
   tmpyposdist=abs(tmpypos*0.21) #dist from text above (white space above)
   tmpseqy1=seq(tmpsty,tmpypos-tmpyposdist,0.001)
@@ -639,7 +630,7 @@ if (plotp4 == 1) {
 dev.off()
 
 
-## save milestones measures
+## save milestones measures # please note that the M1, M2, and M3 mentioned in the paper, are called m2, m3, and m4 here, while the rate of maturation and decline, are called m1 and m5, respectively
 gmilestones=paste("the milestones were ",gmaxderiv," aribtrary units, ",gageatmaxderiv," years, ",gageatfirstzerocrossing, " years, and ",gageatsecondzerocrossing," years, respectively, and the rate of decline at 50% between age at start of decline and max age (at ",gageat50pdecline," years), was ",g50pdecline,sep="")
 write(gmilestones, file = paste(outputdirsummeas,'global_milestones','.galpha',galpha,'.',measname,'.txt', sep = "")) 
 #write m2 and m3 for SC in matlab
@@ -1379,7 +1370,7 @@ write(m3w1w2, file = paste(outputdirsummeas,'m3w1w2','.alpha',alpha,'.',measname
 ### Relate milestones to other measures ###
 
 ##Von economo
-vonecodir="/Users/hakongrydeland/Dropbox/cambridge2016/voneconomo/"
+vonecodir="voneconomo/"
 vonecofile=paste(vonecodir,"hcpvoneconomoclasses.txt",sep='')
 vonecovec = read.delim(vonecofile,header=FALSE,sep=",")
 origvonecovec = as.numeric(vonecovec)
@@ -1706,7 +1697,7 @@ for (mi in 1:(dim(milestones.all)[1])) {
   
   #intramodulardegree
   tmpgmoiname="intramodulardegree"
-  ifile = paste(struccovdir,tmpgmoiname,"_cost",cost,'_gamma',gamma,sep='') #generated in matlab, using structuralcovariance_wholesample.m
+  ifile = paste(struccovdir,tmpgmoiname,"_cost",cost,'_gamma',gamma,sep='') #generated in matlab, using structuralcovariance_btwm2m3.m
   tmpgmoiall = read.delim(ifile,header=FALSE,sep=",")
   tmpgmoi = as.numeric(tmpgmoiall[tmpind])
   
@@ -1782,7 +1773,7 @@ for (mi in 1:(dim(milestones.all)[1])) {
   ### intermodulardegree ###
   
   tmpgmoiname="intermodulardegree"
-  ifile = paste(struccovdir,tmpgmoiname,"_cost",cost,'_gamma',gamma,sep='') #generated in matlab, using structuralcovariance_wholesample.m
+  ifile = paste(struccovdir,tmpgmoiname,"_cost",cost,'_gamma',gamma,sep='') #generated in matlab, using structuralcovariance_btwm2m3.m
   tmpgmoiall = read.delim(ifile,header=FALSE,sep=",")
   tmpgmoi = as.numeric(tmpgmoiall[tmpind])
 
@@ -1866,7 +1857,7 @@ for (mi in 1:(dim(milestones.all)[1])) {
   tmpgmoiname="degree"
   subdatadir="results/validt1wt2w_204_256_dimregressed/"
   finalrfmri="denoi_filtered_func_data_wds_12mot_csf_fraction_0.5_nearest"
-  rfmrimeasdir=paste("/Users/hakongrydeland/Dropbox/cambridge2016/projects/lifespant1wt2w/",subdatadir,'rfmri/',finalrfmri,'/avgmats/',sep='')
+  rfmrimeasdir=paste("projects/lifespant1wt2w/",subdatadir,'rfmri/',finalrfmri,'/avgmats/',sep='')
   ifile = paste(rfmrimeasdir,tmpgmoiname,"_wavelets",w,"_cost",cost,sep='')
   tmpgmoi = read.delim(ifile,header=FALSE,sep=",") 
   tmpgmoi = as.numeric(tmpgmoi[tmpind])
